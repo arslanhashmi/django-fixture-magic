@@ -95,6 +95,12 @@ class Command(BaseCommand):
         else:
             if ids[0] == '*':
                 objs = dump_me.objects.all()
+            elif 'limit:' in ids[0]:
+                try:
+                    limit = int(ids[0].replace('limit:', ''))
+                    objs = dump_me.objects.all()[:limit]
+                except:
+                    raise CommandError('Recheck the command it should be limit:N, N is the limit.')
             else:
                 try:
                     parsers = int, long, str
